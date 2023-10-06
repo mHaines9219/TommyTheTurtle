@@ -30,4 +30,9 @@ Avoid hungry predators, dodge obstacles, and use your skills to lead Tommy to sa
 
 ## Wireframe
 
-![Alt text](https://file%252B.vscode-resource.vscode-cdn.net/Users/matthewhaines/code/projects/TommyTheTurtle/wireframe.png?version%253D1696608454619)
+  <img src="wireframe.png" width="350" title="hover text">
+
+## Potential Roadblocks
+
+- New to canvas and hoping I can figure out "scroll" function
+- collision detection might be challenging
