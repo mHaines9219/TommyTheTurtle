@@ -26,6 +26,7 @@ Avoid hungry predators, dodge obstacles, and use your skills to lead Tommy to sa
 ## Tech Stack
 
 - HTML
+- HTML Canvas
 - CSS
 - Javascript
 
