@@ -1,0 +1,33 @@
+* {
+  border: 2px solid red;
+}
+
+body {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+main {
+  height: 900px;
+  width: 900px;
+  display: flex;
+  justify-content: center;
+}
+
+aside {
+  display: grid;
+  grid-template-rows: 3;
+}
+
+#canvas-container {
+  grid-column-start: 1;
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+canvas {
+  height: 900px;
+  width: 900px;
+}
