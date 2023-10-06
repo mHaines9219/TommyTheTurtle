@@ -100,25 +100,24 @@
         ];
 
         const sillySeals = [
-            new Crawler(701, 300, 40, 40, "olive"),
+            new Crawler(701, 300, 80, 40, "olive"),
 
-            new Crawler(601, 300, 40, 40, "olive"),
-            new Crawler(501, 300, 40, 40, "olive"),
-            new Crawler(401, 300, 40, 40, "olive"),
-            new Crawler(301, 300, 40, 40, "olive"),
-            new Crawler(1, 300, 40, 40, "olive"),
-            new Crawler(101, 300, 40, 40, "olive"),
-            new Crawler(201, 300, 40, 40, "olive"),
+            // new Crawler(601, 300, 40, 40, "olive"),
+            new Crawler(501, 300, 80, 40, "olive"),
+            // new Crawler(401, 300, 40, 40, "olive"),
+            new Crawler(301, 300, 80, 40, "olive"),
+            // new Crawler(1, 300, 40, 40, "olive"),
+            new Crawler(101, 300, 80, 40, "olive"),
+            // new Crawler(201, 300, 40, 40, "olive"),
             //--- 
-            new Crawler(701, 250, 40, 40, "olive"),
+            new Crawler(701, 250, 80, 40, "pink"),
 
-            new Crawler(601, 250, 40, 40, "olive"),
-            new Crawler(501, 250, 40, 40, "olive"),
-            new Crawler(401, 250, 40, 40, "olive"),
-            new Crawler(301, 250, 40, 40, "olive"),
-            new Crawler(1, 250, 40, 40, "olive"),
-            new Crawler(101, 250, 40, 40, "olive"),
-            new Crawler(201, 250, 40, 40, "olive"),
+            // new Crawler(601, 250, 80, 40, "pink"),
+            new Crawler(501, 250, 80, 40, "pink"),
+            // new Crawler(401, 250, 80, 40, "pink"),
+            new Crawler(301, 250, 80, 40, "pink"),
+            new Crawler(1, 250, 80, 40, "pink"),
+
 
         ];
         const roughRocks = [
@@ -137,9 +136,6 @@
         ]
         const gameInterval = setInterval(gameLoop, 100);
 
-        function detectHit(objectOne, objectTwo) {
-            // Your collision detection logic
-        }
 
         function movementHandler(e) {
             const speed = 25;
@@ -197,14 +193,14 @@
                     bullyBirds[i].x = 0;
                 }
             }
-            speed = 5;
+            speed = 10;
             for (let i = 0; i < sillySeals.length; i++) {
-                if (i <= 7) {
+                if (i <= 3) {
                     sillySeals[i].x += speed;
                     if (sillySeals[i].x + sillySeals[i].width > 897) {
                         sillySeals[i].x = 0;
                     }
-                } if (i > 7) {
+                } if (i > 3) {
                     sillySeals[i].x -= speed * 1.5
                 } if (sillySeals[i].x + sillySeals[i].width < 0) {
                     sillySeals[i].x = canvas.width;
@@ -214,9 +210,48 @@
 
         }
 
+        function detectHit(objectOne, objectTwo) {
+            //watched Chris Courses to solidify my collision detection understanding 
+
+            if (objectOne.x + objectOne.width >= objectTwo.x && objectOne.x <= objectTwo.x + objectTwo.width && objectOne.y + objectOne.height >= objectTwo.y && objectOne.y <= objectTwo.y + objectTwo.height
+            )
+                return true
+        }
+
         function gameLoop() {
             renderObjects();
             enemyMovement();
+            for (let i = 0; i < crankyCrabs.length; i++) {
+                if (detectHit(tommyTurtle, crankyCrabs[i])) {
+                    // tommyTurtle.alive = false;
+                    console.log("tommy didnt make it :(")
+                }
+            }
+            for (let i = 0; i < bullyBirds.length; i++) {
+                if (detectHit(tommyTurtle, bullyBirds[i])) {
+                    // tommyTurtle.alive = false;
+                    console.log("tommy didnt make it :(")
+                }
+            }
+            for (let i = 0; i < sillySeals.length; i++) {
+                if (detectHit(tommyTurtle, sillySeals[i])) {
+                    // tommyTurtle.alive = false;
+                    console.log("tommy didnt make it :(")
+                }
+            }
+            // for (let i = 0; i < bullyBirds.length; i++) {
+            //     if (detectHit(tommyTurtle, bullyBirds[i])) {
+            //         tommyTurtle.alive = false;
+            //         console.log("tommy didnt make it :(")
+            //     }
+            // }
+            // for (let i = 0; i < sillySeals.length; i++) {
+            //     if (detectHit(tommyTurtle, sillySeals[i])) {
+            //         tommyTurtle.alive = false;
+            //         console.log("tommy didnt make it :(")
+            //     }
+            // }
+
         }
 
         gameLoop();
