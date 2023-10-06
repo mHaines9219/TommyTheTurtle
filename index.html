@@ -6,8 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🐢 Tommy The Turtle 🐢
     </title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="app.js"></script>
+    <!-- <link rel="stylesheet" href="styles.css">
+    <script defer src="app.js"></script> -->
+    <style>
+        * {
+            border: 2px solid red;
+        }
+
+        body {
+            display: inline-grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        main {
+            height: 900px;
+            width: 900px;
+            display: flex;
+            justify-content: center;
+        }
+
+        aside {
+            display: grid;
+            grid-template-rows: 3;
+        }
+
+        #canvas-container {
+            grid-column-start: 1;
+
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            height: 900px;
+            width: 900px;
+            overflow: hidden;
+        }
+
+        canvas {
+            height: 900px;
+            width: 900px;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +53,7 @@
 
     <div id="canvas-container">
         <main>
-            <canvas id="canvas"></canvas>
+            <canvas id="canvas" tabindex="1"></canvas>
         </main>
     </div>
     <aside id="game-info">
@@ -23,6 +61,167 @@
         <div id="tommy-head"></div>
         <div id="TBA"></div>
     </aside>
+
+    <script>//DOM SELECTORS
+        const canvas = document.querySelector("#canvas");
+        const canvasContainer = document.querySelector("#canvas-container");
+        const ctx = canvas.getContext("2d");
+
+        canvas.setAttribute("height", getComputedStyle(canvas).height);
+        canvas.setAttribute("width", getComputedStyle(canvas).width);
+
+        class Crawler {
+            constructor(x, y, width, height, color) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+            }
+            render() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+        }
+
+        const tommyTurtle = new Crawler(425, 800, 40, 40, "green");
+        const crankyCrabs = [
+            new Crawler(425, 700, 40, 40, "red"),
+            new Crawler(25, 700, 40, 40, "red"),
+            new Crawler(225, 700, 40, 40, "red"),
+            new Crawler(625, 700, 40, 40, "red"),
+        ];
+
+        const bullyBirds = [
+            new Crawler(425, 500, 40, 40, "blue"),
+            new Crawler(25, 500, 40, 40, "blue"),
+            new Crawler(225, 500, 40, 40, "blue"),
+            new Crawler(625, 500, 40, 40, "blue"),
+        ];
+
+        const sillySeals = [
+            new Crawler(701, 300, 40, 40, "olive"),
+
+            new Crawler(601, 300, 40, 40, "olive"),
+            new Crawler(501, 300, 40, 40, "olive"),
+            new Crawler(401, 300, 40, 40, "olive"),
+            new Crawler(301, 300, 40, 40, "olive"),
+            new Crawler(1, 300, 40, 40, "olive"),
+            new Crawler(101, 300, 40, 40, "olive"),
+            new Crawler(201, 300, 40, 40, "olive"),
+            //--- 
+            new Crawler(701, 250, 40, 40, "olive"),
+
+            new Crawler(601, 250, 40, 40, "olive"),
+            new Crawler(501, 250, 40, 40, "olive"),
+            new Crawler(401, 250, 40, 40, "olive"),
+            new Crawler(301, 250, 40, 40, "olive"),
+            new Crawler(1, 250, 40, 40, "olive"),
+            new Crawler(101, 250, 40, 40, "olive"),
+            new Crawler(201, 250, 40, 40, "olive"),
+
+        ];
+        const roughRocks = [
+            new Crawler(780, 200, 40, 40, "gray"),
+            new Crawler(601, 200, 40, 40, "gray"),
+            new Crawler(401, 200, 40, 40, "gray"),
+            new Crawler(1, 200, 40, 40, "gray"),
+            new Crawler(201, 200, 40, 40, "gray"),
+
+            new Crawler(700, 550, 40, 40, "gray"),
+            new Crawler(601, 550, 40, 40, "gray"),
+            new Crawler(401, 550, 40, 40, "gray"),
+            new Crawler(50, 550, 40, 40, "gray"),
+            new Crawler(201, 550, 40, 40, "gray"),
+
+        ]
+        const gameInterval = setInterval(gameLoop, 100);
+
+        function detectHit(objectOne, objectTwo) {
+            // Your collision detection logic
+        }
+
+        function movementHandler(e) {
+            const speed = 25;
+            switch (e.key) {
+                case "w":
+                    tommyTurtle.y -= speed;
+                    break;
+                case "s":
+                    tommyTurtle.y += speed;
+                    break;
+                case "a":
+                    tommyTurtle.x -= speed;
+                    break;
+                case "d":
+                    tommyTurtle.x += speed;
+                    break;
+                default:
+                    console.log(`${e.key} not recognized`);
+            }
+        }
+
+        document.addEventListener("keydown", function (e) {
+            movementHandler(e);
+        });
+
+        function renderObjects() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            tommyTurtle.render();
+            for (let i = 0; i < crankyCrabs.length; i++) {
+                crankyCrabs[i].render();
+            }
+            for (let i = 0; i < bullyBirds.length; i++) {
+                bullyBirds[i].render();
+            }
+            for (let i = 0; i < sillySeals.length; i++) {
+                sillySeals[i].render();
+            }
+            for (let i = 0; i < roughRocks.length; i++) {
+                roughRocks[i].render();
+            }
+        }
+
+        function enemyMovement() {
+            let speed = 15;
+            for (let i = 0; i < crankyCrabs.length; i++) {
+                crankyCrabs[i].x -= speed;
+                if (crankyCrabs[i].x + crankyCrabs[i].width < 0) {
+                    crankyCrabs[i].x = canvas.width;
+                }
+            }
+            speed = 25;
+            for (let i = 0; i < bullyBirds.length; i++) {
+                bullyBirds[i].x += speed;
+                if (bullyBirds[i].x + bullyBirds[i].width > 897) {
+                    bullyBirds[i].x = 0;
+                }
+            }
+            speed = 5;
+            for (let i = 0; i < sillySeals.length; i++) {
+                if (i <= 7) {
+                    sillySeals[i].x += speed;
+                    if (sillySeals[i].x + sillySeals[i].width > 897) {
+                        sillySeals[i].x = 0;
+                    }
+                } if (i > 7) {
+                    sillySeals[i].x -= speed * 1.5
+                } if (sillySeals[i].x + sillySeals[i].width < 0) {
+                    sillySeals[i].x = canvas.width;
+                }
+            }
+
+
+        }
+
+        function gameLoop() {
+            renderObjects();
+            enemyMovement();
+        }
+
+        gameLoop();
+    </script>
 </body>
+
 
 </html>
