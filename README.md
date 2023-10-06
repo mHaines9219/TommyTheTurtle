@@ -21,6 +21,7 @@ Avoid hungry predators, dodge obstacles, and use your skills to lead Tommy to sa
 - Create a toggle for a second skin of the game
 - Create an SVG element on the side of the canvas of Tommy's face that reacts as you progress
 - Create a "scrolling" canvas to increase game length
+- Add ambient audio and SFX
 
 ## Tech Stack
 
