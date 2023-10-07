@@ -45,6 +45,24 @@
             height: 900px;
             width: 900px;
         }
+
+        #lives-container {
+            display: inline-grid;
+            grid-template-rows: 1;
+
+        }
+
+        #timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #game-info>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 
@@ -57,15 +75,20 @@
         </main>
     </div>
     <aside id="game-info">
-        <div id="lives-container"></div>
-        <div id="tommy-head"></div>
-        <div id="TBA"></div>
+        <div id="lives-container">
+            <div>LIVES</div>
+            <div></div>
+        </div>
+
+        <div id="tommy-head">X</div>
+        <div id="timer">0:0</div>
     </aside>
 
     <script>//DOM SELECTORS
         const canvas = document.querySelector("#canvas");
         const canvasContainer = document.querySelector("#canvas-container");
         const ctx = canvas.getContext("2d");
+        const timer = document.querySelector('#timer')
 
         canvas.setAttribute("height", getComputedStyle(canvas).height);
         canvas.setAttribute("width", getComputedStyle(canvas).width);
@@ -77,6 +100,7 @@
                 this.width = width;
                 this.height = height;
                 this.color = color;
+                this.alive = true;
             }
             render() {
                 ctx.fillStyle = this.color;
@@ -138,7 +162,7 @@
 
 
         function movementHandler(e) {
-            const speed = 25;
+            const speed = 45;
             switch (e.key) {
                 case "w":
                     tommyTurtle.y -= speed;
@@ -161,6 +185,7 @@
             movementHandler(e);
         });
 
+
         function renderObjects() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             tommyTurtle.render();
@@ -177,7 +202,26 @@
                 roughRocks[i].render();
             }
         }
+        function timerRefresh() {
+            if (tommyTurtle.alive) {
+                let seconds = 0
+                let minutes = 0
+                function updateTimer() {
+                    seconds++
+                    if (seconds === 60) {
+                        minutes++
+                        seconds = 0
+                    }
+                    const formatTime = `${minutes}: ${seconds}`
+                    timer.innerText = formatTime
+                }
+                setInterval(updateTimer, 1000)
 
+            } else if (tommyTurtle.alive = false) {
+                timer.innerText = formatTime
+                setInterval(updateTimer, 0)
+            }
+        }
         function enemyMovement() {
             let speed = 15;
             for (let i = 0; i < crankyCrabs.length; i++) {
@@ -217,45 +261,56 @@
             )
                 return true
         }
+        function detectRocks(tommyTurtle, roughRocks) {
 
-        function gameLoop() {
-            renderObjects();
-            enemyMovement();
-            for (let i = 0; i < crankyCrabs.length; i++) {
-                if (detectHit(tommyTurtle, crankyCrabs[i])) {
-                    // tommyTurtle.alive = false;
-                    console.log("tommy didnt make it :(")
-                }
+            if (objectOne.x + objectOne.width >= objectTwo.x && objectOne.x <= objectTwo.x + objectTwo.width && objectOne.y + objectOne.height >= objectTwo.y && objectOne.y <= objectTwo.y + objectTwo.height
+            ) {
+                tommyTurtle.x
             }
-            for (let i = 0; i < bullyBirds.length; i++) {
-                if (detectHit(tommyTurtle, bullyBirds[i])) {
-                    // tommyTurtle.alive = false;
-                    console.log("tommy didnt make it :(")
-                }
-            }
-            for (let i = 0; i < sillySeals.length; i++) {
-                if (detectHit(tommyTurtle, sillySeals[i])) {
-                    // tommyTurtle.alive = false;
-                    console.log("tommy didnt make it :(")
-                }
-            }
-            // for (let i = 0; i < bullyBirds.length; i++) {
-            //     if (detectHit(tommyTurtle, bullyBirds[i])) {
-            //         tommyTurtle.alive = false;
-            //         console.log("tommy didnt make it :(")
-            //     }
-            // }
-            // for (let i = 0; i < sillySeals.length; i++) {
-            //     if (detectHit(tommyTurtle, sillySeals[i])) {
-            //         tommyTurtle.alive = false;
-            //         console.log("tommy didnt make it :(")
-            //     }
-            // }
 
         }
 
-        gameLoop();
-    </script>
+        function detectEscape() {
+            if (tommyTurtle.y < -10) {
+                tommyTurtle.alive = false;
+            }
+        }
+
+        function gameLoop() {
+            if (tommyTurtle.alive) {
+                renderObjects();
+                enemyMovement();
+                for (let i = 0; i < crankyCrabs.length; i++) {
+                    if (detectHit(tommyTurtle, crankyCrabs[i])) {
+                        // tommyTurtle.alive = false;
+                        console.log("tommy didnt make it :(")
+                        tommyTurtle.alive = false;
+                    }
+                }
+                for (let i = 0; i < bullyBirds.length; i++) {
+                    if (detectHit(tommyTurtle, bullyBirds[i])) {
+                        // tommyTurtle.alive = false;
+                        console.log("tommy didnt make it :(")
+                        tommyTurtle.alive = false;
+
+                    }
+                }
+                for (let i = 0; i < sillySeals.length; i++) {
+                    if (detectHit(tommyTurtle, sillySeals[i])) {
+                        // tommyTurtle.alive = false;
+                        console.log("tommy didnt make it :(")
+                        tommyTurtle.alive = false;
+
+                    }
+                }
+                detectEscape();
+            }
+
+
+        }
+
+        gameLoop()
+        timerRefresh();  </script>
 </body>
 
 
