@@ -1,4 +1,4 @@
-* {
+/* * {
   border: 2px solid red;
 }
 
@@ -25,9 +25,13 @@ aside {
   display: flex;
   justify-content: center;
   align-content: center;
+  height: 900px;
+  width: 900px;
+  overflow: hidden;
+  position: relative;
 }
 
 canvas {
   height: 900px;
   width: 900px;
-}
+} */

@@ -11,6 +11,8 @@
     <style>
         * {
             border: 2px solid red;
+
+
         }
 
         body {
@@ -62,6 +64,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+
         }
     </style>
 </head>
@@ -89,20 +92,29 @@
         const canvasContainer = document.querySelector("#canvas-container");
         const ctx = canvas.getContext("2d");
         const timer = document.querySelector('#timer')
+        const img = new Image();
+        img.src = 'beach.png';
+        const crabImg = new Image();
+        crabImg.src = 'crabimg.png'
+
 
         canvas.setAttribute("height", getComputedStyle(canvas).height);
         canvas.setAttribute("width", getComputedStyle(canvas).width);
 
         class Crawler {
-            constructor(x, y, width, height, color) {
+            constructor(x, y, width, height, color, image) {
                 this.x = x;
                 this.y = y;
                 this.width = width;
                 this.height = height;
                 this.color = color;
+                this.image = image;
                 this.alive = true;
             }
             render() {
+                if (this.image) {
+                    ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+                }
                 ctx.fillStyle = this.color;
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             }
@@ -110,10 +122,10 @@
 
         const tommyTurtle = new Crawler(425, 800, 40, 40, "green");
         const crankyCrabs = [
-            new Crawler(425, 700, 40, 40, "red"),
-            new Crawler(25, 700, 40, 40, "red"),
-            new Crawler(225, 700, 40, 40, "red"),
-            new Crawler(625, 700, 40, 40, "red"),
+            new Crawler(425, 700, 40, 40, "red", crabImg),
+            new Crawler(25, 700, 40, 40, "red", crabImg),
+            new Crawler(225, 700, 40, 40, "red", crabImg),
+            new Crawler(625, 700, 40, 40, "red", crabImg),
         ];
 
         const bullyBirds = [
@@ -124,45 +136,45 @@
         ];
 
         const sillySeals = [
-            new Crawler(701, 300, 80, 40, "olive"),
+            new Crawler(701, 300, 70, 40, "olive"),
 
             // new Crawler(601, 300, 40, 40, "olive"),
-            new Crawler(501, 300, 80, 40, "olive"),
+            new Crawler(501, 300, 70, 40, "olive"),
             // new Crawler(401, 300, 40, 40, "olive"),
-            new Crawler(301, 300, 80, 40, "olive"),
+            new Crawler(301, 300, 70, 40, "olive"),
             // new Crawler(1, 300, 40, 40, "olive"),
-            new Crawler(101, 300, 80, 40, "olive"),
+            new Crawler(101, 300, 70, 40, "olive"),
             // new Crawler(201, 300, 40, 40, "olive"),
             //--- 
-            new Crawler(701, 250, 80, 40, "pink"),
+            new Crawler(701, 250, 70, 40, "pink"),
 
             // new Crawler(601, 250, 80, 40, "pink"),
-            new Crawler(501, 250, 80, 40, "pink"),
+            new Crawler(501, 250, 70, 40, "pink"),
             // new Crawler(401, 250, 80, 40, "pink"),
-            new Crawler(301, 250, 80, 40, "pink"),
-            new Crawler(1, 250, 80, 40, "pink"),
+            new Crawler(301, 250, 70, 40, "pink"),
+            new Crawler(1, 250, 70, 40, "pink"),
 
 
         ];
-        const roughRocks = [
-            new Crawler(780, 200, 40, 40, "gray"),
-            new Crawler(601, 200, 40, 40, "gray"),
-            new Crawler(401, 200, 40, 40, "gray"),
-            new Crawler(1, 200, 40, 40, "gray"),
-            new Crawler(201, 200, 40, 40, "gray"),
+        // const roughRocks = [
+        // new Crawler(780, 200, 40, 40, "gray"),
+        //     new Crawler(601, 200, 40, 40, "gray"),
+        //     new Crawler(401, 200, 40, 40, "gray"),
+        //     new Crawler(1, 200, 40, 40, "gray"),
+        //     new Crawler(201, 200, 40, 40, "gray"),
 
-            new Crawler(700, 550, 40, 40, "gray"),
-            new Crawler(601, 550, 40, 40, "gray"),
-            new Crawler(401, 550, 40, 40, "gray"),
-            new Crawler(50, 550, 40, 40, "gray"),
-            new Crawler(201, 550, 40, 40, "gray"),
+        //     new Crawler(700, 550, 40, 40, "gray"),
+        //     new Crawler(601, 550, 40, 40, "gray"),
+        //     new Crawler(401, 550, 40, 40, "gray"),
+        //     new Crawler(50, 550, 40, 40, "gray"),
+        //     new Crawler(201, 550, 40, 40, "gray"),
 
-        ]
+        // ]
         const gameInterval = setInterval(gameLoop, 100);
 
 
         function movementHandler(e) {
-            const speed = 45;
+            const speed = 50;
             switch (e.key) {
                 case "w":
                     tommyTurtle.y -= speed;
@@ -187,7 +199,6 @@
 
 
         function renderObjects() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
             tommyTurtle.render();
             for (let i = 0; i < crankyCrabs.length; i++) {
                 crankyCrabs[i].render();
@@ -198,10 +209,10 @@
             for (let i = 0; i < sillySeals.length; i++) {
                 sillySeals[i].render();
             }
-            for (let i = 0; i < roughRocks.length; i++) {
-                roughRocks[i].render();
-            }
+            // for (let i = 0; i < roughRocks.length; i++) {
+            // roughRocks[i].render();
         }
+        // }
         function timerRefresh() {
             if (tommyTurtle.alive) {
                 let seconds = 0
@@ -261,14 +272,6 @@
             )
                 return true
         }
-        function detectRocks(tommyTurtle, roughRocks) {
-
-            if (objectOne.x + objectOne.width >= objectTwo.x && objectOne.x <= objectTwo.x + objectTwo.width && objectOne.y + objectOne.height >= objectTwo.y && objectOne.y <= objectTwo.y + objectTwo.height
-            ) {
-                tommyTurtle.x
-            }
-
-        }
 
         function detectEscape() {
             if (tommyTurtle.y < -10) {
@@ -277,6 +280,11 @@
         }
 
         function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the background image
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
             if (tommyTurtle.alive) {
                 renderObjects();
                 enemyMovement();
@@ -308,9 +316,15 @@
 
 
         }
+        img.onload = function () {
+            // Once the image is loaded, draw it on the canvas
 
-        gameLoop()
-        timerRefresh();  </script>
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            gameLoop();
+            timerRefresh();
+        };
+    </script>
 </body>
 
 
