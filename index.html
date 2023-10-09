@@ -15,9 +15,17 @@
 
         }
 
+        html {
+            display: flex;
+            justify-content: center;
+        }
+
         body {
             display: inline-grid;
             grid-template-columns: repeat(2, 1fr);
+            width: 1200px;
+            display: flex;
+            justify-content: center;
         }
 
         main {
@@ -30,6 +38,7 @@
         aside {
             display: grid;
             grid-template-rows: 3;
+            width: 200px;
         }
 
         #canvas-container {
@@ -66,6 +75,39 @@
             align-items: center;
 
         }
+
+        #landing {
+            border: 2px solid blue;
+            z-index: 2;
+            background-color: black;
+            border: 2px solid blue;
+            z-index: 2;
+            background-color: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        #start-button {
+            background-color: green;
+            position: "absolute";
+            margin-top: 100px;
+            transform: "translateY(-50%)";
+            z-index: 3;
+
+        }
+
+        #replay-button {
+            z-index: 0;
+            position: absolute;
+        }
     </style>
 </head>
 
@@ -96,6 +138,21 @@
         img.src = 'beach.png';
         const crabImg = new Image();
         crabImg.src = 'crabimg.png'
+        const landingPage = document.createElement("div");
+        landingPage.id = "landing";
+
+        landingPage.innerHTML = "<h1>Welcome to Tommy The Turtle Game!</h1>";
+        const startButton = document.createElement('button');
+        startButton.id = "start-button";
+        startButton.textContent = "Help Tommy Escape The Beach!";
+        const replayButton = document.createElement('button')
+        replayButton.id = "replay-button"
+        replayButton.textContent = "Play Again?"
+
+
+        // Append the landing page and start button to the body
+        document.body.appendChild(landingPage);
+        landingPage.appendChild(startButton);
 
 
         canvas.setAttribute("height", getComputedStyle(canvas).height);
@@ -196,6 +253,10 @@
         document.addEventListener("keydown", function (e) {
             movementHandler(e);
         });
+        startButton.addEventListener("click", function () {
+            landingPage.remove();
+            tommyTurtle.alive = true;
+        })
 
 
         function renderObjects() {
@@ -244,7 +305,7 @@
             speed = 25;
             for (let i = 0; i < bullyBirds.length; i++) {
                 bullyBirds[i].x += speed;
-                if (bullyBirds[i].x + bullyBirds[i].width > 897) {
+                if (bullyBirds[i].x + bullyBirds[i].width > canvas.width) {
                     bullyBirds[i].x = 0;
                 }
             }
@@ -252,7 +313,7 @@
             for (let i = 0; i < sillySeals.length; i++) {
                 if (i <= 3) {
                     sillySeals[i].x += speed;
-                    if (sillySeals[i].x + sillySeals[i].width > 897) {
+                    if (sillySeals[i].x + sillySeals[i].width > canvas.width) {
                         sillySeals[i].x = 0;
                     }
                 } if (i > 3) {
@@ -278,6 +339,9 @@
                 tommyTurtle.alive = false;
             }
         }
+
+
+
 
         function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -312,18 +376,23 @@
                     }
                 }
                 detectEscape();
+            } else {
+                document.body.appendChild(replayButton)
+
             }
 
 
         }
         img.onload = function () {
             // Once the image is loaded, draw it on the canvas
-
+            tommyTurtle.alive = false;
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            gameLoop();
             timerRefresh();
         };
+
+
+
     </script>
 </body>
 
