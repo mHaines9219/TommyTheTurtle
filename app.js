@@ -20,7 +20,9 @@ startButton.textContent = "Help Tommy Escape The Beach!";
 const replayButton = document.querySelector("#replay-button");
 let newLife;
 const backgroundAudio = document.getElementById("background-audio");
-const enemyChompAudio = document.getElementById("enemy-chomp");
+const sealChompAudio = document.getElementById("seal-chomp");
+const birdGulpAudio = document.getElementById("bird-gulp");
+const crabChompAudio = document.getElementById("crab-chomp");
 
 // Append the landing page and start button to the body
 document.body.appendChild(landingPage);
@@ -184,7 +186,6 @@ function detectHit(objectOne, objectTwo) {
     objectOne.y + objectOne.height >= objectTwo.y &&
     objectOne.y <= objectTwo.y + objectTwo.height
   ) {
-    enemyChompAudioVolumeControl();
     lives--;
     tommyTurtle.x = 425;
     tommyTurtle.y = 800;
@@ -203,15 +204,25 @@ function detectEscape() {
 }
 function playBackgroundAudio() {
   backgroundAudio.play();
-  volume = 0.4;
+  volume = 0.3;
   backgroundAudio.volume = volume;
 }
-function enemyChompAudioVolumeControl() {
-  enemyChompAudio.play();
-  volume = 0.2;
-  enemyChompAudio.volume = volume;
+function sealChompAudioVolumeControl() {
+  sealChompAudio.play();
+  volume = 0.1;
+  sealChompAudio.volume = volume;
+}
+function crabChompAudioVolumeControl() {
+  crabChompAudio.play();
+  volume = 0.1;
+  crabChompAudio.volume = volume;
 }
 
+function birdGulpAudioVolumeControl() {
+  birdGulpAudio.play();
+  volume = 0.1;
+  birdGulpAudio.volume = volume;
+}
 // Define the event listener function separately
 function replayButtonClickHandler() {
   tommyTurtle.alive = true;
@@ -247,11 +258,13 @@ function gameLoop() {
     renderObjects();
     for (let i = 0; i < crankyCrabs.length; i++) {
       if (detectHit(tommyTurtle, crankyCrabs[i])) {
+        crabChompAudioVolumeControl();
         // tommyTurtle.alive = false;
       }
     }
     for (let i = 0; i < bullyBirds.length; i++) {
       if (detectHit(tommyTurtle, bullyBirds[i])) {
+        birdGulpAudioVolumeControl();
         // tommyTurtle.alive = false;
         // tommyTurtle.alive = false;
         // isGameOver = true;
@@ -259,6 +272,8 @@ function gameLoop() {
     }
     for (let i = 0; i < sillySeals.length; i++) {
       if (detectHit(tommyTurtle, sillySeals[i])) {
+        sealChompAudioVolumeControl();
+
         // tommyTurtle.alive = false;
         // tommyTurtle.alive = false;
         // isGameOver = true;
