@@ -137,7 +137,6 @@
     </div>
     <aside id="game-info">
         <div id="lives-container">
-            <div>LIVES</div>
             <!-- <div class="life">X</div>
             <div class="life">X</div>
             <div class="life">X</div> -->
@@ -361,7 +360,9 @@
             tommyTurtle.x = 425;
             tommyTurtle.y = 800;
             lives = 3;
-
+            while (livesContainer.firstChild) {
+                livesContainer.removeChild(livesContainer.firstChild);
+            }
             for (let i = 0; i < 3; i++) {
                 newLife = document.createElement('div')
 
