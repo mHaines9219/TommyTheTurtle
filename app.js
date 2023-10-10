@@ -19,6 +19,8 @@ startButton.id = "start-button";
 startButton.textContent = "Help Tommy Escape The Beach!";
 const replayButton = document.querySelector("#replay-button");
 let newLife;
+const backgroundAudio = document.getElementById("background-audio");
+const enemyChompAudio = document.getElementById("enemy-chomp");
 
 // Append the landing page and start button to the body
 document.body.appendChild(landingPage);
@@ -109,6 +111,7 @@ document.addEventListener("keydown", function (e) {
   movementHandler(e);
 });
 startButton.addEventListener("click", function () {
+  playBackgroundAudio();
   landingPage.remove();
   tommyTurtle.alive = true;
   for (let i = 0; i < 3; i++) {
@@ -181,6 +184,7 @@ function detectHit(objectOne, objectTwo) {
     objectOne.y + objectOne.height >= objectTwo.y &&
     objectOne.y <= objectTwo.y + objectTwo.height
   ) {
+    enemyChompAudioVolumeControl();
     lives--;
     tommyTurtle.x = 425;
     tommyTurtle.y = 800;
@@ -196,6 +200,16 @@ function detectEscape() {
     tommyTurtle.alive = false;
     isGameOver = true;
   }
+}
+function playBackgroundAudio() {
+  backgroundAudio.play();
+  volume = 0.4;
+  backgroundAudio.volume = volume;
+}
+function enemyChompAudioVolumeControl() {
+  enemyChompAudio.play();
+  volume = 0.2;
+  enemyChompAudio.volume = volume;
 }
 
 // Define the event listener function separately
