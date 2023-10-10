@@ -1,37 +1,116 @@
-/* * {
-  border: 2px solid red;
-}
+    <style>
+        * {
+            border: 2px solid red;
 
-body {
-  display: inline-grid;
-  grid-template-columns: repeat(2, 1fr);
-}
 
-main {
-  height: 900px;
-  width: 900px;
-  display: flex;
-  justify-content: center;
-}
+        }
 
-aside {
-  display: grid;
-  grid-template-rows: 3;
-}
+        html {
+            display: flex;
+            justify-content: center;
+        }
 
-#canvas-container {
-  grid-column-start: 1;
+        body {
+            display: inline-grid;
+            grid-template-columns: repeat(2, 1fr);
+            width: 1200px;
+            display: flex;
+            justify-content: center;
+        }
 
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  height: 900px;
-  width: 900px;
-  overflow: hidden;
-  position: relative;
-}
+        main {
+            height: 900px;
+            width: 900px;
+            display: flex;
+            justify-content: center;
+        }
 
-canvas {
-  height: 900px;
-  width: 900px;
-} */
+
+
+        aside {
+            display: grid;
+            grid-template-rows: 3;
+            width: 200px;
+        }
+
+        #canvas-container {
+            grid-column-start: 1;
+
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            height: 900px;
+            width: 900px;
+            overflow: hidden;
+        }
+
+        canvas {
+            height: 900px;
+            width: 900px;
+        }
+
+        #lives-container {
+            display: inline-grid;
+            grid-template-rows: 1;
+
+        }
+
+        #timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #game-info>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        #landing {
+
+            border: 2px solid blue;
+            z-index: 2;
+            background-color: black;
+            opacity: .5;
+            position: absolute;
+            top: 100;
+            left: 0;
+            width: 900px;
+            height: 900px;
+            margin-left: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        #start-button {
+            background-color: green;
+            position: "absolute";
+            margin-top: 100px;
+            color: white;
+            z-index: 4;
+
+        }
+
+        h1 {
+            z-index: 4;
+            color: white;
+        }
+
+        #replay-button {
+            z-index: 0;
+            position: absolute;
+            display: none;
+            margin-top: 450px;
+            border-radius: 35%;
+            width: 200px;
+            height: 100px;
+
+
+
+        }
+    </style>
