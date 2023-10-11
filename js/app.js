@@ -8,9 +8,7 @@ const livesContainer = document.querySelector("#lives-container");
 const ctx = canvas.getContext("2d");
 const timer = document.querySelector("#timer");
 const img = new Image();
-img.src = "beach.png";
-const crabImg = new Image();
-crabImg.src = "crabimg.png";
+img.src = "images/beach.png";
 const landingPage = document.createElement("div");
 landingPage.id = "landing";
 landingPage.innerHTML = "<h1>Welcome to Tommy The Turtle Game!</h1>";
@@ -23,6 +21,10 @@ const backgroundAudio = document.getElementById("background-audio");
 const sealChompAudio = document.getElementById("seal-chomp");
 const birdGulpAudio = document.getElementById("bird-gulp");
 const crabChompAudio = document.getElementById("crab-chomp");
+const crabImg = new Image();
+crabImg.src = "images/crabimg.png";
+const birdImg = new Image();
+birdImg.src = "images/seagullimg.png";
 
 // Append the landing page and start button to the body
 document.body.appendChild(landingPage);
@@ -39,30 +41,32 @@ class Crawler {
     this.height = height;
     this.color = color;
     this.image = image;
-    this.alive = null;
+    this.alive = alive;
   }
+
   render() {
     if (this.image) {
       ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    } else {
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
     }
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }
 
-const tommyTurtle = new Crawler(425, 800, 40, 40, "green", "", false);
+const tommyTurtle = new Crawler(425, 800, 30, 30, "green", "", false);
 const crankyCrabs = [
-  new Crawler(425, 700, 40, 40, "red", crabImg),
-  new Crawler(25, 700, 40, 40, "red", crabImg),
-  new Crawler(225, 700, 40, 40, "red", crabImg),
-  new Crawler(625, 700, 40, 40, "red", crabImg),
+  new Crawler(425, 700, 35, 35, "red", crabImg),
+  new Crawler(25, 700, 35, 35, "red", crabImg),
+  new Crawler(225, 700, 35, 35, "red", crabImg),
+  new Crawler(625, 700, 35, 35, "red", crabImg),
 ];
 
 const bullyBirds = [
-  new Crawler(425, 500, 40, 40, "blue"),
-  new Crawler(25, 500, 40, 40, "blue"),
-  new Crawler(225, 500, 40, 40, "blue"),
-  new Crawler(625, 500, 40, 40, "blue"),
+  new Crawler(425, 500, 60, 60, "blue", birdImg),
+  new Crawler(25, 500, 60, 60, "blue", birdImg),
+  new Crawler(225, 500, 60, 60, "blue", birdImg),
+  new Crawler(625, 500, 60, 60, "blue", birdImg),
 ];
 
 const sillySeals = [

@@ -1,5 +1,5 @@
 * {
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 html {
@@ -62,7 +62,7 @@ canvas {
 }
 
 #landing {
-  border: 2px solid blue;
+  border: 15px solid blue;
   z-index: 2;
   background-color: black;
   opacity: 0.5;
@@ -71,7 +71,7 @@ canvas {
   left: 0;
   width: 900px;
   height: 900px;
-  margin-left: 200px;
+  margin-left: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;
