@@ -14,7 +14,7 @@ landingPage.id = "landing";
 landingPage.innerHTML = `<h1>Welcome to Tommy The Turtle Game!</h1>
 <p>Tommy just hatched into a cruel, heartless world, and he needs your help!<br><br><br>
  Use the WASD keys to guide Tommy to the safety of open water.<br> <br><br>
- You'll have 3 tries to get past the Cranky Crabs, Bully Birds, and Silly Seals. <br><br><br>
+ You'll have 3 tries to get past the Cranky Crabs, Bully Birds, Silly Seals, and Sharky Sharks. <br><br><br>
  If you succeed Tommy will go on to live a happy and long life.<br><br><br>
   His fate is in your hands, don't blow it!</p>`;
 const winnerPage = document.getElementById("winner-page");
@@ -33,6 +33,7 @@ const crabChompAudio = document.getElementById("crab-chomp");
 const sharkChompAudio = document.getElementById("shark-chomp");
 const gameWinAudio = document.getElementById("game-win");
 const gameStartAudio = document.getElementById("game-start");
+const gameLoseAudio = document.getElementById("game-lose");
 const crabImg = new Image();
 crabImg.src = "images/crabimg.png";
 const birdImg = new Image();
@@ -242,8 +243,11 @@ function detectHit(objectOne, objectTwo) {
     tommyTurtle.y = 710;
     const removedLife = domLives.pop(); // Remove the last life element from the array
     livesContainer.removeChild(removedLife); // Remove the last life element from the container
+
     return true;
-    return true;
+  }
+  if (lives === 0) {
+    gameLoseAudioVolumeControl();
   }
 }
 
@@ -284,13 +288,17 @@ function gameWinAudioVolumeControl() {
   volume = 0.04;
   gameWinAudio.volume = volume;
 }
+function gameLoseAudioVolumeControl() {
+  gameLoseAudio.play();
+  volume = 0.1;
+  gameLoseAudio.volume = volume;
+}
 
 function birdGulpAudioVolumeControl() {
   birdGulpAudio.play();
   volume = 0.1;
   birdGulpAudio.volume = volume;
 }
-// Define the event listener function separately
 function replayButtonClickHandler() {
   tommyTurtle.alive = true;
   isGameOver = false;
@@ -303,6 +311,7 @@ function replayButtonClickHandler() {
   backgroundAudio.volume = 0.4;
   gameStartAudioVolumeControl();
   gameWinAudio.volume = 0;
+  gameLoseAudio.volume = 0;
   while (livesContainer.firstChild) {
     livesContainer.removeChild(livesContainer.firstChild);
   }
@@ -317,13 +326,7 @@ function replayButtonClickHandler() {
   }
 }
 
-// Add the event listener
 replayButton.addEventListener("click", replayButtonClickHandler);
-
-// ...
-
-// Later in your code, you can remove the event listener if needed
-// replayButton.removeEventListener("click", replayButtonClickHandler);
 
 function gameLoop() {
   if (isGameOver === false) {
