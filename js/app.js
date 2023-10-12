@@ -18,7 +18,6 @@ landingPage.innerHTML = `<h1>Welcome to Tommy The Turtle Game!</h1>
  If you succeed Tommy will go on to live a happy and long life.<br><br><br>
   His fate is in your hands, don't blow it!</p>`;
 const winnerPage = document.getElementById("winner-page");
-
 winnerPage.style.display = "none";
 const startButton = document.createElement("button");
 startButton.id = "start-button";
@@ -69,19 +68,19 @@ class Crawler {
 }
 
 const tommyTurtle = new Crawler(
-  425,
-  800,
-  40,
-  40,
+  400,
+  720,
+  30,
+  30,
   "green",
   tommyTurtleImg,
   false
 );
 const crankyCrabs = [
-  new Crawler(425, 700, 45, 45, "red", crabImg),
-  new Crawler(25, 700, 45, 45, "red", crabImg),
-  new Crawler(225, 700, 45, 45, "red", crabImg),
-  new Crawler(625, 700, 45, 45, "red", crabImg),
+  new Crawler(425, 635, 35, 35, "red", crabImg),
+  new Crawler(25, 635, 35, 35, "red", crabImg),
+  new Crawler(225, 635, 35, 35, "red", crabImg),
+  new Crawler(625, 635, 35, 35, "red", crabImg),
 ];
 
 const bullyBirds = [
@@ -102,7 +101,7 @@ const sillySeals = [
   new Crawler(101, 300, 90, 55, "olive", sealImgRight),
   // new Crawler(201, 300, 55, 55, "olive"),
   //---
-  new Crawler(901, 250, 90, 55, "pink", sealImgLeft),
+  new Crawler(701, 250, 90, 55, "pink", sealImgLeft),
 
   // new Crawler(601, 250, 80, 55, "pink"),
   new Crawler(501, 250, 90, 55, "pink", sealImgLeft),
@@ -188,25 +187,25 @@ function enemyMovement() {
       crankyCrabs[i].x = canvas.width;
     }
   }
-  speed = 25;
+  speed = 20;
   for (let i = 0; i < bullyBirds.length; i++) {
     bullyBirds[i].x += speed;
-    if (bullyBirds[i].x + bullyBirds[i].width > canvas.width) {
-      bullyBirds[i].x = 0;
+    if (bullyBirds[i].x + bullyBirds[i].width > canvas.width + 40) {
+      bullyBirds[i].x = -40;
     }
   }
   speed = 10;
   for (let i = 0; i < sillySeals.length; i++) {
     if (i <= 3) {
       sillySeals[i].x += speed;
-      if (sillySeals[i].x + sillySeals[i].width > canvas.width) {
-        sillySeals[i].x = 0;
+      if (sillySeals[i].x + sillySeals[i].width > canvas.width + 80) {
+        sillySeals[i].x = -80;
       }
     }
     if (i > 3) {
       sillySeals[i].x -= speed * 1.5;
     }
-    if (sillySeals[i].x + sillySeals[i].width < 0) {
+    if (sillySeals[i].x + sillySeals[i].width < -10) {
       sillySeals[i].x = canvas.width;
     }
   }
@@ -221,8 +220,8 @@ function detectHit(objectOne, objectTwo) {
     objectOne.y <= objectTwo.y + objectTwo.height
   ) {
     lives--;
-    tommyTurtle.x = 425;
-    tommyTurtle.y = 800;
+    tommyTurtle.x = 400;
+    tommyTurtle.y = 720;
     const removedLife = domLives.pop(); // Remove the last life element from the array
     livesContainer.removeChild(removedLife); // Remove the last life element from the container
     return true;
@@ -232,9 +231,7 @@ function detectHit(objectOne, objectTwo) {
 
 function detectEscape() {
   if (tommyTurtle.y < -10) {
-    tommyTurtle.alive = false;
     isGameOver = true;
-    winnerPage.style.display = "block";
   }
 }
 function playBackgroundAudio() {
@@ -262,10 +259,10 @@ function birdGulpAudioVolumeControl() {
 function replayButtonClickHandler() {
   tommyTurtle.alive = true;
   isGameOver = false;
+  replayButton.style.display = "none";
   winnerPage.style.display = "none";
-  replayButton.style.display = "none"; // Remove the replay button when clicked
-  tommyTurtle.x = 425;
-  tommyTurtle.y = 800;
+  tommyTurtle.x = 400;
+  tommyTurtle.y = 720;
   lives = 3;
   while (livesContainer.firstChild) {
     livesContainer.removeChild(livesContainer.firstChild);
@@ -290,7 +287,7 @@ replayButton.addEventListener("click", replayButtonClickHandler);
 // replayButton.removeEventListener("click", replayButtonClickHandler);
 
 function gameLoop() {
-  if (tommyTurtle.alive) {
+  if (isGameOver === false) {
     enemyMovement();
     renderObjects();
     for (let i = 0; i < crankyCrabs.length; i++) {
@@ -321,12 +318,13 @@ function gameLoop() {
       isGameOver = true;
     }
     detectEscape();
-  } else if (isGameOver === true && lives > 0) {
-    replayButton.style.display = "block";
-
+  } else if (lives > 0 && detectEscape) {
+    // Tommy won the game with lives remaining
     winnerPage.style.display = "block";
-    winnerPage.style.bottom = "100px";
+
+    replayButton.style.display = "block";
   } else if (isGameOver === true) {
+    // Tommy lost all lives
     replayButton.style.display = "block";
   }
 }

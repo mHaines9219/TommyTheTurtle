@@ -2,13 +2,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Gloria+Hallelujah&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
-* {
-  /* border: 2px solid red; */
+aside {
+  /* Other CSS properties */
 }
 
 html {
   display: flex;
   justify-content: center;
+  background-image: url("images/mainbg.png");
 }
 
 body {
@@ -35,21 +36,22 @@ aside {
 }
 
 #canvas-container {
-  grid-column-start: 1;
+  grid-column-center: 1;
 
   display: flex;
   justify-content: center;
   align-content: center;
-  height: 900px;
-  width: 900px;
+  height: 800px;
+  width: 800px;
   overflow: hidden;
   border: 10px solid rgb(212, 153, 39);
   border-radius: 5%;
+  margin-top: 0px;
 }
 
 canvas {
-  height: 900px;
-  width: 900px;
+  height: 800px;
+  width: 800px;
   z-index: 0;
 }
 
@@ -57,16 +59,9 @@ canvas {
   /* Set a background color or style as needed */
   padding: 10px; /* Add padding for better appearance */
   border-radius: 5px; /* Add rounded corners if desired */
-  position: absolute;
   bottom: 150px;
   right: 360px;
   display: flex;
-}
-
-#timer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 #game-info > div {
@@ -81,9 +76,9 @@ canvas {
   background-color: black;
   opacity: 0.7;
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -50%);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -92,7 +87,7 @@ canvas {
 }
 
 #start-button {
-  width: 400px;
+  width: 350px;
   height: 70px;
   background: linear-gradient(to left top, rgb(212, 153, 39), rgb(190, 60, 36));
   border-style: none;
@@ -120,17 +115,6 @@ canvas {
   animation-play-state: paused;
 }
 
-/* background-color: white;
-  margin-bottom: 50px;
-  color: white;
-  z-index: 4;
-  margin-top: 50px;
-  width: 300px;
-  height: 100px;
-  font-size: 20px;
-  font-family: "Bungee Spice", sans-serif;
-  border-radius: 15%; */
-
 h1 {
   z-index: 4;
   color: white;
@@ -140,29 +124,62 @@ h1 {
 }
 
 #replay-button {
-  z-index: 0;
+  width: 400px;
+  height: 70px;
+  background: linear-gradient(to left top, rgb(212, 153, 39), rgb(190, 60, 36));
+  border-style: none;
+  color: #fff;
+  font-size: 23px;
+  letter-spacing: 3px;
+  font-family: "Bungee", sans-serif;
+  text-shadow: 2px 2px 4px black; /* Add a black text shadow here */
+  outline: none;
+  cursor: pointer;
   position: absolute;
+  padding: 0px;
+  overflow: hidden;
+  transition: all 0.5s;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  margin-top: 40%;
+  top: 5%;
+  z-index: 9;
   display: none;
-  margin-top: 450px;
-  border-radius: 35%;
-  width: 200px;
-  height: 100px;
+  transform: translate(-0%, -10%);
 }
+
+#replay-button:hover {
+  transition: all 0.5s;
+  transform: rotate(-3deg) scale(1.1);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+}
+#replay-button:hover span {
+  animation-play-state: paused;
+}
+
 p {
   color: white;
   font-family: "Luckiest Guy", cursive;
 
   letter-spacing: 3px;
 }
-
 #winner-page {
   background-color: black;
+  opacity: 0.5;
   z-index: 3;
   position: absolute;
-  display: none;
-
-  border-radius: 35%;
-  width: 200px;
+  text-align: center;
+  top: 35%; /* Vertically center #winner-page */
+  left: 50%; /* Horizontally center #winner-page */
+  transform: translate(-50%, -50%); /* Centering trick */
+  width: 800px;
   height: 100px;
   color: red;
+  display: flex; /* Add display: flex */
+  align-items: center; /* Center vertically */
+}
+
+#winner-page > p {
+  font-size: 3rem;
+  transform: translate(-0%, -50%);
+  font-family: "Bungee Spice", sans-serif;
 }
