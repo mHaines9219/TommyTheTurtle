@@ -11,7 +11,15 @@ const img = new Image();
 img.src = "images/beach.png";
 const landingPage = document.createElement("div");
 landingPage.id = "landing";
-landingPage.innerHTML = "<h1>Welcome to Tommy The Turtle Game!</h1>";
+landingPage.innerHTML = `<h1>Welcome to Tommy The Turtle Game!</h1>
+<p>Tommy just hatched into a cruel, heartless world, and he needs your help!<br><br><br>
+ Use the WASD keys to guide Tommy to the safety of open water.<br> <br><br>
+ You'll have 3 tries to get past the Cranky Crabs, Bully Birds, and Silly Seals. <br><br><br>
+ If you succeed Tommy will go on to live a happy and long life.<br><br><br>
+  His fate is in your hands, don't blow it!</p>`;
+const winnerPage = document.getElementById("winner-page");
+
+winnerPage.style.display = "none";
 const startButton = document.createElement("button");
 startButton.id = "start-button";
 startButton.textContent = "Help Tommy Escape The Beach!";
@@ -25,6 +33,12 @@ const crabImg = new Image();
 crabImg.src = "images/crabimg.png";
 const birdImg = new Image();
 birdImg.src = "images/seagullimg.png";
+const sealImgLeft = new Image();
+sealImgLeft.src = "images/sillySealLeft.png";
+const sealImgRight = new Image();
+sealImgRight.src = "images/sillySealRight.png";
+const tommyTurtleImg = new Image();
+tommyTurtleImg.src = "images/tommyTurtle.png";
 
 // Append the landing page and start button to the body
 document.body.appendChild(landingPage);
@@ -54,62 +68,78 @@ class Crawler {
   }
 }
 
-const tommyTurtle = new Crawler(425, 800, 30, 30, "green", "", false);
+const tommyTurtle = new Crawler(
+  425,
+  800,
+  40,
+  40,
+  "green",
+  tommyTurtleImg,
+  false
+);
 const crankyCrabs = [
-  new Crawler(425, 700, 35, 35, "red", crabImg),
-  new Crawler(25, 700, 35, 35, "red", crabImg),
-  new Crawler(225, 700, 35, 35, "red", crabImg),
-  new Crawler(625, 700, 35, 35, "red", crabImg),
+  new Crawler(425, 700, 45, 45, "red", crabImg),
+  new Crawler(25, 700, 45, 45, "red", crabImg),
+  new Crawler(225, 700, 45, 45, "red", crabImg),
+  new Crawler(625, 700, 45, 45, "red", crabImg),
 ];
 
 const bullyBirds = [
-  new Crawler(425, 500, 60, 60, "blue", birdImg),
-  new Crawler(25, 500, 60, 60, "blue", birdImg),
-  new Crawler(225, 500, 60, 60, "blue", birdImg),
-  new Crawler(625, 500, 60, 60, "blue", birdImg),
+  new Crawler(425, 490, 60, 60, "blue", birdImg),
+  new Crawler(25, 490, 60, 60, "blue", birdImg),
+  new Crawler(225, 490, 60, 60, "blue", birdImg),
+  new Crawler(625, 490, 60, 60, "blue", birdImg),
 ];
 
 const sillySeals = [
-  new Crawler(701, 300, 70, 40, "olive"),
+  new Crawler(701, 300, 90, 55, "olive", sealImgRight),
 
-  // new Crawler(601, 300, 40, 40, "olive"),
-  new Crawler(501, 300, 70, 40, "olive"),
-  // new Crawler(401, 300, 40, 40, "olive"),
-  new Crawler(301, 300, 70, 40, "olive"),
-  // new Crawler(1, 300, 40, 40, "olive"),
-  new Crawler(101, 300, 70, 40, "olive"),
-  // new Crawler(201, 300, 40, 40, "olive"),
+  // new Crawler(601, 300, 55, 55, "olive"),
+  new Crawler(501, 300, 90, 55, "olive", sealImgRight),
+  // new Crawler(551, 300, 55, 55, "olive"),
+  new Crawler(301, 300, 90, 55, "olive", sealImgRight),
+  // new Crawler(1, 300, 55, 55, "olive"),
+  new Crawler(101, 300, 90, 55, "olive", sealImgRight),
+  // new Crawler(201, 300, 55, 55, "olive"),
   //---
-  new Crawler(701, 250, 70, 40, "pink"),
+  new Crawler(901, 250, 90, 55, "pink", sealImgLeft),
 
-  // new Crawler(601, 250, 80, 40, "pink"),
-  new Crawler(501, 250, 70, 40, "pink"),
-  // new Crawler(401, 250, 80, 40, "pink"),
-  new Crawler(301, 250, 70, 40, "pink"),
-  new Crawler(1, 250, 70, 40, "pink"),
+  // new Crawler(601, 250, 80, 55, "pink"),
+  new Crawler(501, 250, 90, 55, "pink", sealImgLeft),
+  // new Crawler(551, 250, 80, 55, "pink"),
+  new Crawler(301, 250, 90, 55, "pink", sealImgLeft),
+  new Crawler(1, 250, 90, 55, "pink", sealImgLeft),
 ];
 
 const gameInterval = setInterval(gameLoop, 100);
-
 function movementHandler(e) {
   if (tommyTurtle.alive) {
-    const speed = 50;
+    const speed = 40;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
     switch (e.key) {
       case "w":
         tommyTurtle.y -= speed;
+
         break;
       case "s":
-        tommyTurtle.y += speed;
+        if (tommyTurtle.y + tommyTurtle.height + speed <= canvasHeight) {
+          tommyTurtle.y += speed;
+        }
         break;
       case "a":
-        tommyTurtle.x -= speed;
+        if (tommyTurtle.x - speed >= 0) {
+          tommyTurtle.x -= speed;
+        }
         break;
       case "d":
-        tommyTurtle.x += speed;
+        if (tommyTurtle.x + tommyTurtle.width + speed <= canvasWidth) {
+          tommyTurtle.x += speed;
+        }
         break;
       default:
     }
-  } else {
   }
 }
 
@@ -124,7 +154,7 @@ startButton.addEventListener("click", function () {
     newLife = document.createElement("div");
 
     newLife.classList.add("life");
-    newLife.textContent = "X";
+    newLife.innerHTML = '<img src="images/tommyTurtle.png">';
     domLives.push(newLife);
     livesContainer.appendChild(newLife);
   }
@@ -204,11 +234,12 @@ function detectEscape() {
   if (tommyTurtle.y < -10) {
     tommyTurtle.alive = false;
     isGameOver = true;
+    winnerPage.style.display = "block";
   }
 }
 function playBackgroundAudio() {
   backgroundAudio.play();
-  volume = 0.3;
+  volume = 0.4;
   backgroundAudio.volume = volume;
 }
 function sealChompAudioVolumeControl() {
@@ -231,6 +262,7 @@ function birdGulpAudioVolumeControl() {
 function replayButtonClickHandler() {
   tommyTurtle.alive = true;
   isGameOver = false;
+  winnerPage.style.display = "none";
   replayButton.style.display = "none"; // Remove the replay button when clicked
   tommyTurtle.x = 425;
   tommyTurtle.y = 800;
@@ -242,7 +274,8 @@ function replayButtonClickHandler() {
     newLife = document.createElement("div");
 
     newLife.classList.add("life");
-    newLife.textContent = "X";
+    newLife.innerHTML = '<img src="images/tommyTurtle.png" >';
+
     domLives.push(newLife);
     livesContainer.appendChild(newLife);
   }
@@ -288,6 +321,11 @@ function gameLoop() {
       isGameOver = true;
     }
     detectEscape();
+  } else if (isGameOver === true && lives > 0) {
+    replayButton.style.display = "block";
+
+    winnerPage.style.display = "block";
+    winnerPage.style.bottom = "100px";
   } else if (isGameOver === true) {
     replayButton.style.display = "block";
   }

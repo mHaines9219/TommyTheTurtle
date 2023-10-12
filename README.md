@@ -6,6 +6,10 @@ Did you know that 90% of Sea Turtle hatchlings are eaten by predators? Birds, cr
 
 Avoid hungry predators, dodge obstacles, and use your skills to lead Tommy to safety. Can you help Tommy become one of the lucky few who survive to embark on a lifetime of ocean adventures? Play now and save a turtle today!
 
+### Play the Game!
+
+https://mhaines9219.github.io/TommyTheTurtle/
+
 ## MVP
 
 - Create a game board resembling a beach
