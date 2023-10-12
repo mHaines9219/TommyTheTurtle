@@ -30,6 +30,9 @@ const backgroundAudio = document.getElementById("background-audio");
 const sealChompAudio = document.getElementById("seal-chomp");
 const birdGulpAudio = document.getElementById("bird-gulp");
 const crabChompAudio = document.getElementById("crab-chomp");
+const sharkChompAudio = document.getElementById("shark-chomp");
+const gameWinAudio = document.getElementById("game-win");
+const gameStartAudio = document.getElementById("game-start");
 const crabImg = new Image();
 crabImg.src = "images/crabimg.png";
 const birdImg = new Image();
@@ -42,7 +45,6 @@ const tommyTurtleImg = new Image();
 tommyTurtleImg.src = "images/tommyTurtle.png";
 const sharkySharkImg = new Image();
 sharkySharkImg.src = "images/sharkyShark.png";
-const sharkChompAudio = document.getElementById("shark-chomp");
 
 // Append the landing page and start button to the body
 document.body.appendChild(landingPage);
@@ -74,7 +76,7 @@ class Crawler {
 
 const tommyTurtle = new Crawler(
   400,
-  720,
+  710,
   30,
   30,
   "green",
@@ -82,42 +84,35 @@ const tommyTurtle = new Crawler(
   false
 );
 const crankyCrabs = [
-  new Crawler(425, 635, 35, 35, "red", crabImg),
-  new Crawler(25, 635, 35, 35, "red", crabImg),
-  new Crawler(225, 635, 35, 35, "red", crabImg),
-  new Crawler(625, 635, 35, 35, "red", crabImg),
+  new Crawler(425, 625, 35, 35, "red", crabImg),
+  new Crawler(25, 625, 35, 35, "red", crabImg),
+  new Crawler(225, 625, 35, 35, "red", crabImg),
+  new Crawler(625, 625, 35, 35, "red", crabImg),
 ];
 
 const bullyBirds = [
-  new Crawler(425, 490, 60, 60, "blue", birdImg),
-  new Crawler(25, 490, 60, 60, "blue", birdImg),
-  new Crawler(225, 490, 60, 60, "blue", birdImg),
-  new Crawler(625, 490, 60, 60, "blue", birdImg),
+  new Crawler(425, 480, 60, 60, "blue", birdImg),
+  new Crawler(25, 480, 60, 60, "blue", birdImg),
+  new Crawler(225, 480, 60, 60, "blue", birdImg),
+  new Crawler(625, 480, 60, 60, "blue", birdImg),
 ];
 
 const sillySeals = [
-  new Crawler(701, 300, 90, 55, "olive", sealImgRight),
+  new Crawler(701, 290, 90, 55, "olive", sealImgRight),
 
-  // new Crawler(601, 300, 55, 55, "olive"),
-  new Crawler(501, 300, 90, 55, "olive", sealImgRight),
-  // new Crawler(551, 300, 55, 55, "olive"),
-  new Crawler(301, 300, 90, 55, "olive", sealImgRight),
-  // new Crawler(1, 300, 55, 55, "olive"),
-  new Crawler(101, 300, 90, 55, "olive", sealImgRight),
-  // new Crawler(201, 300, 55, 55, "olive"),
-  //---
-  new Crawler(701, 250, 90, 55, "pink", sealImgLeft),
+  new Crawler(501, 290, 90, 55, "olive", sealImgRight),
+  new Crawler(301, 290, 90, 55, "olive", sealImgRight),
+  new Crawler(101, 290, 90, 55, "olive", sealImgRight),
+  new Crawler(701, 240, 90, 55, "pink", sealImgLeft),
 
-  // new Crawler(601, 250, 80, 55, "pink"),
-  new Crawler(501, 250, 90, 55, "pink", sealImgLeft),
-  // new Crawler(551, 250, 80, 55, "pink"),
-  new Crawler(301, 250, 90, 55, "pink", sealImgLeft),
-  new Crawler(1, 250, 90, 55, "pink", sealImgLeft),
+  new Crawler(501, 240, 90, 55, "pink", sealImgLeft),
+  new Crawler(301, 240, 90, 55, "pink", sealImgLeft),
+  new Crawler(1, 240, 90, 55, "pink", sealImgLeft),
 ];
 
 const sharkyShark = [
-  new Crawler(450, 75, 150, 80, "blue", sharkySharkImg),
-  new Crawler(50, 75, 150, 80, "blue", sharkySharkImg),
+  new Crawler(450, 65, 150, 80, "blue", sharkySharkImg),
+  new Crawler(50, 65, 150, 80, "blue", sharkySharkImg),
 ];
 
 const gameInterval = setInterval(gameLoop, 100);
@@ -156,6 +151,7 @@ document.addEventListener("keydown", function (e) {
   movementHandler(e);
 });
 startButton.addEventListener("click", function () {
+  gameStartAudioVolumeControl();
   playBackgroundAudio();
   landingPage.remove();
   tommyTurtle.alive = true;
@@ -243,7 +239,7 @@ function detectHit(objectOne, objectTwo) {
   ) {
     lives--;
     tommyTurtle.x = 400;
-    tommyTurtle.y = 720;
+    tommyTurtle.y = 710;
     const removedLife = domLives.pop(); // Remove the last life element from the array
     livesContainer.removeChild(removedLife); // Remove the last life element from the container
     return true;
@@ -254,6 +250,7 @@ function detectHit(objectOne, objectTwo) {
 function detectEscape() {
   if (tommyTurtle.y < -10) {
     isGameOver = true;
+    gameWinAudioVolumeControl();
   }
 }
 function playBackgroundAudio() {
@@ -276,6 +273,17 @@ function sharkChompAudioVolumeControl() {
   volume = 0.1;
   sharkChompAudio.volume = volume;
 }
+function gameStartAudioVolumeControl() {
+  gameStartAudio.play();
+  volume = 0.05;
+  gameStartAudio.volume = volume;
+}
+
+function gameWinAudioVolumeControl() {
+  gameWinAudio.play();
+  volume = 0.04;
+  gameWinAudio.volume = volume;
+}
 
 function birdGulpAudioVolumeControl() {
   birdGulpAudio.play();
@@ -290,8 +298,11 @@ function replayButtonClickHandler() {
   winnerPage.style.display = "none";
   loserPage.style.display = "none";
   tommyTurtle.x = 400;
-  tommyTurtle.y = 720;
+  tommyTurtle.y = 710;
   lives = 3;
+  backgroundAudio.volume = 0.4;
+  gameStartAudioVolumeControl();
+  gameWinAudio.volume = 0;
   while (livesContainer.firstChild) {
     livesContainer.removeChild(livesContainer.firstChild);
   }
@@ -358,12 +369,14 @@ function gameLoop() {
   } else if (lives > 0 && detectEscape) {
     // Tommy won the game with lives remaining
     winnerPage.style.display = "block";
+    backgroundAudio.volume = 0;
 
     replayButton.style.display = "block";
   } else if (isGameOver === true) {
     // Tommy lost all lives
     replayButton.style.display = "block";
     loserPage.style.display = "block";
+    backgroundAudio.volume = 0;
   }
 }
 img.onload = function () {
