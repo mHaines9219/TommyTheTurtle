@@ -19,6 +19,8 @@ landingPage.innerHTML = `<h1>Welcome to Tommy The Turtle Game!</h1>
   His fate is in your hands, don't blow it!</p>`;
 const winnerPage = document.getElementById("winner-page");
 winnerPage.style.display = "none";
+const loserPage = document.getElementById("loser-page");
+loserPage.style.display = "none";
 const startButton = document.createElement("button");
 startButton.id = "start-button";
 startButton.textContent = "Help Tommy Escape The Beach!";
@@ -38,6 +40,9 @@ const sealImgRight = new Image();
 sealImgRight.src = "images/sillySealRight.png";
 const tommyTurtleImg = new Image();
 tommyTurtleImg.src = "images/tommyTurtle.png";
+const sharkySharkImg = new Image();
+sharkySharkImg.src = "images/sharkyShark.png";
+const sharkChompAudio = document.getElementById("shark-chomp");
 
 // Append the landing page and start button to the body
 document.body.appendChild(landingPage);
@@ -110,6 +115,11 @@ const sillySeals = [
   new Crawler(1, 250, 90, 55, "pink", sealImgLeft),
 ];
 
+const sharkyShark = [
+  new Crawler(450, 75, 150, 80, "blue", sharkySharkImg),
+  new Crawler(50, 75, 150, 80, "blue", sharkySharkImg),
+];
+
 const gameInterval = setInterval(gameLoop, 100);
 function movementHandler(e) {
   if (tommyTurtle.alive) {
@@ -174,6 +184,9 @@ function renderObjects() {
   for (let i = 0; i < sillySeals.length; i++) {
     sillySeals[i].render();
   }
+  for (let i = 0; i < sharkyShark.length; i++) {
+    sharkyShark[i].render();
+  }
   // for (let i = 0; i < roughRocks.length; i++) {
   // roughRocks[i].render();
 }
@@ -207,6 +220,15 @@ function enemyMovement() {
     }
     if (sillySeals[i].x + sillySeals[i].width < -10) {
       sillySeals[i].x = canvas.width;
+    }
+  }
+  speed = 50;
+  for (let i = 0; i < sharkyShark.length; i++) {
+    if (i <= 3) {
+      sharkyShark[i].x += speed;
+      if (sharkyShark[i].x + sharkyShark[i].width > canvas.width + 80) {
+        sharkyShark[i].x = -80;
+      }
     }
   }
 }
@@ -249,6 +271,11 @@ function crabChompAudioVolumeControl() {
   volume = 0.1;
   crabChompAudio.volume = volume;
 }
+function sharkChompAudioVolumeControl() {
+  sharkChompAudio.play();
+  volume = 0.1;
+  sharkChompAudio.volume = volume;
+}
 
 function birdGulpAudioVolumeControl() {
   birdGulpAudio.play();
@@ -261,6 +288,7 @@ function replayButtonClickHandler() {
   isGameOver = false;
   replayButton.style.display = "none";
   winnerPage.style.display = "none";
+  loserPage.style.display = "none";
   tommyTurtle.x = 400;
   tommyTurtle.y = 720;
   lives = 3;
@@ -313,6 +341,15 @@ function gameLoop() {
         // isGameOver = true;
       }
     }
+    for (let i = 0; i < sharkyShark.length; i++) {
+      if (detectHit(tommyTurtle, sharkyShark[i])) {
+        sharkChompAudioVolumeControl();
+
+        // tommyTurtle.alive = false;
+        // tommyTurtle.alive = false;
+        // isGameOver = true;
+      }
+    }
     if (lives === 0) {
       tommyTurtle.alive = false;
       isGameOver = true;
@@ -326,6 +363,7 @@ function gameLoop() {
   } else if (isGameOver === true) {
     // Tommy lost all lives
     replayButton.style.display = "block";
+    loserPage.style.display = "block";
   }
 }
 img.onload = function () {
