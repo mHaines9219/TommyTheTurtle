@@ -10,6 +10,8 @@ Avoid hungry predators, dodge obstacles, and use your skills to lead Tommy to sa
 
 https://mhaines9219.github.io/TommyTheTurtle/
 
+Use the WASD keys to control movement, be careful when spamming the keys as movement is initialized for next life right after death so you may waste two lives if you're not careful with keystrokes.
+
 ## MVP
 
 - Create a game board resembling a beach
@@ -36,9 +38,16 @@ https://mhaines9219.github.io/TommyTheTurtle/
 
 ## Wireframe
 
-  <img src="wireframe.png" width="350" title="hover text">
+  <img src="wireframe.png" width="350" title="wireframe">
 
 ## Potential Roadblocks
 
 - New to canvas and hoping I can figure out "scroll" function
 - collision detection might be challenging
+
+## Screenshots
+
+  <img src="screenshots/introScreen.png" width="350" title="wireframe">
+  <img src="screenshots/playScreen.png" width="350" title="wireframe">
+  <img src="screenshots/loseScreen.png" width="350" title="wireframe">
+  <img src="screenshots/winScreen.png" width="350" title="wireframe">
