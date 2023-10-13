@@ -1,5 +1,5 @@
-//DOM SELECTORS
 let isGameOver = false;
+let isMovementEnabled = true;
 let lives = 3;
 let domLives = [];
 const canvas = document.querySelector("#canvas");
@@ -47,7 +47,6 @@ tommyTurtleImg.src = "images/tommyTurtle.png";
 const sharkySharkImg = new Image();
 sharkySharkImg.src = "images/sharkyShark.png";
 
-// Append the landing page and start button to the body
 document.body.appendChild(landingPage);
 landingPage.appendChild(startButton);
 
@@ -184,10 +183,7 @@ function renderObjects() {
   for (let i = 0; i < sharkyShark.length; i++) {
     sharkyShark[i].render();
   }
-  // for (let i = 0; i < roughRocks.length; i++) {
-  // roughRocks[i].render();
 }
-// }
 
 function enemyMovement() {
   let speed = 15;
@@ -241,8 +237,8 @@ function detectHit(objectOne, objectTwo) {
     lives--;
     tommyTurtle.x = 400;
     tommyTurtle.y = 710;
-    const removedLife = domLives.pop(); // Remove the last life element from the array
-    livesContainer.removeChild(removedLife); // Remove the last life element from the container
+    const removedLife = domLives.pop();
+    livesContainer.removeChild(removedLife);
 
     return true;
   }
@@ -335,33 +331,21 @@ function gameLoop() {
     for (let i = 0; i < crankyCrabs.length; i++) {
       if (detectHit(tommyTurtle, crankyCrabs[i])) {
         crabChompAudioVolumeControl();
-        // tommyTurtle.alive = false;
       }
     }
     for (let i = 0; i < bullyBirds.length; i++) {
       if (detectHit(tommyTurtle, bullyBirds[i])) {
         birdGulpAudioVolumeControl();
-        // tommyTurtle.alive = false;
-        // tommyTurtle.alive = false;
-        // isGameOver = true;
       }
     }
     for (let i = 0; i < sillySeals.length; i++) {
       if (detectHit(tommyTurtle, sillySeals[i])) {
         sealChompAudioVolumeControl();
-
-        // tommyTurtle.alive = false;
-        // tommyTurtle.alive = false;
-        // isGameOver = true;
       }
     }
     for (let i = 0; i < sharkyShark.length; i++) {
       if (detectHit(tommyTurtle, sharkyShark[i])) {
         sharkChompAudioVolumeControl();
-
-        // tommyTurtle.alive = false;
-        // tommyTurtle.alive = false;
-        // isGameOver = true;
       }
     }
     if (lives === 0) {
@@ -370,19 +354,17 @@ function gameLoop() {
     }
     detectEscape();
   } else if (lives > 0 && detectEscape) {
-    // Tommy won the game with lives remaining
     winnerPage.style.display = "block";
     backgroundAudio.volume = 0;
 
     replayButton.style.display = "block";
   } else if (isGameOver === true) {
-    // Tommy lost all lives
     replayButton.style.display = "block";
     loserPage.style.display = "block";
     backgroundAudio.volume = 0;
   }
 }
+//backgroundimage load
 img.onload = function () {
-  // Once the image is loaded, draw it on the canvas
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 };
