@@ -51,3 +51,8 @@ Use the WASD keys to control movement, be careful when spamming the keys as move
   <img src="screenshots/playScreen.png" width="350" title="wireframe">
   <img src="screenshots/loseScreen.png" width="350" title="wireframe">
   <img src="screenshots/winScreen.png" width="350" title="wireframe">
+
+## Next Steps
+
+- Add second skin of game, Tommy in Space
+- Add momentary freeze of player motion after death to avoid extra deaths by key-spamming
